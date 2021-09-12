@@ -1,6 +1,7 @@
 package calculator;
 
 import java.util.Stack;
+import java.util.Arrays;
 
 public class Calculator {
   private Stack<Double> numbersHistory;
@@ -23,15 +24,11 @@ public class Calculator {
     this.operator = null;
   }
 
-  public void addNumberToHistory(double value) {
+  private void addNumberToHistory(double value) {
     this.numbersHistory.push(value);
   }
 
-  public void calculate() throws Exception {
-
-    // 1- verificar se existe um operador selecionado
-    // 2- limpar o operador depois do calculo
-
+  private void calculate() throws Exception {
     int sizeNumbersHistory = this.numbersHistory.size();
 
     if (sizeNumbersHistory < 2) {
@@ -47,6 +44,59 @@ public class Calculator {
 
     this.operator = null;
     this.numbersHistory.push(result);
+
+  }
+
+  private boolean isOperation(String valueToVerify) {
+    String[] values = { "+", "-", "*", "/" };
+    boolean contains = Arrays.stream(values).anyMatch(valueToVerify::equals);
+
+    return contains;
+  }
+
+  private boolean isNumeric(String valueToVerify) {
+    return valueToVerify.matches("-?\\d+(\\.\\d+)?");
+  }
+
+  public void addInput(String input) throws Exception {
+
+    if (isOperation(input)) { // is operation
+
+      switch (input) {
+        case "+":
+          this.setOperator(new Adder());
+          break;
+        case "-":
+          this.setOperator(new Subtracter());
+          break;
+        case "*":
+          this.setOperator(new Multiplier());
+          break;
+        case "/":
+          this.setOperator(new Divider());
+          break;
+        default:
+          this.setOperator(null);
+          break;
+      }
+
+      this.calculate();
+
+      // System.out.println("é uma operação");
+    }
+
+    else if (isNumeric(input)) { // is number [done]
+      Double number = Double.parseDouble(input);
+      this.addNumberToHistory(number);
+    }
+
+    else {
+      throw new Exception("Caracter inválido");
+    }
+
+    // if (input) { // is special button
+    // System.out.println("é um botao especial");
+    // }
 
   }
 
