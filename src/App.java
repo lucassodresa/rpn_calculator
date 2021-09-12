@@ -1,30 +1,41 @@
-import calculator.Adder;
+import java.util.Scanner;
 import calculator.Calculator;
-import calculator.Divider;
-import calculator.Multiplier;
-import calculator.Subtracter;
 
 public class App {
-    public static void main(String[] args) throws Exception {
 
-        try {
-            Calculator calculadora = new Calculator();
-            Adder adicao = new Adder();
-            Subtracter subtracao = new Subtracter();
-            Multiplier multiplicacao = new Multiplier();
-            Divider divisao = new Divider();
+  public final static void clearConsole() {
+    try {
+      final String os = System.getProperty("os.name");
 
-            calculadora.addNumberToHistory(5);
-            calculadora.addNumberToHistory(6);
-
-            calculadora.setOperator(adicao);
-            calculadora.calculate();
-
-            System.out.println(calculadora.getNumbersHistory());
-        } catch (Exception error) {
-            System.out.println(error);
-
-        }
-
+      if (os.contains("Windows")) {
+        Runtime.getRuntime().exec("cls");
+      } else {
+        Runtime.getRuntime().exec("clear");
+      }
+    } catch (final Exception e) {
+      // Handle any exceptions.
     }
+  }
+
+  public static void main(String[] args) throws Exception {
+
+    Scanner keyboard = new Scanner(System.in);
+    Calculator calculadora = new Calculator();
+
+    while (true) {
+      System.out.println(calculadora.getNumbersHistory());
+      System.out.print("Insira um valor -> ");
+      String input = keyboard.next();
+      clearConsole();
+
+      try {
+
+        calculadora.addInput(input);
+
+      } catch (Exception error) {
+        System.out.println(error);
+      }
+    }
+
+  }
 }
