@@ -40,11 +40,17 @@ public class Calculator {
 
     double number1 = this.numbersHistory.pop();
     double number2 = this.numbersHistory.pop();
-    double result = this.operator.calculate(number1, number2);
 
-    this.operator = null;
-    this.numbersHistory.push(result);
+    try {
+      double result = this.operator.calculate(number1, number2);
+      this.operator = null;
+      this.numbersHistory.push(result);
+    } catch (Exception error) {
+      this.numbersHistory.push(number2);
+      this.numbersHistory.push(number1);
 
+      throw new Exception(error);
+    }
   }
 
   private boolean isOperation(String valueToVerify) {
