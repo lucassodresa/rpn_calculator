@@ -66,7 +66,7 @@ public class Calculator {
 
   public void addInput(String input) throws Exception {
 
-    if (isOperation(input)) { // is operation
+    if (isOperation(input)) {
 
       switch (input) {
         case "+":
@@ -87,22 +87,17 @@ public class Calculator {
       }
 
       this.calculate();
-
-      // System.out.println("é uma operação");
-    }
-
-    else if (isNumeric(input)) { // is number [done]
+    } else if (isNumeric(input)) {
       Double number = Double.parseDouble(input);
       this.addNumberToHistory(number);
-    }
-
-    else {
+    } else if ("exit".equals(input)) {
+      System.out.println("Bye...");
+      System.exit(0);
+    } else if ("clear".equals(input)) {
+      this.numbersHistory = new Stack<Double>();
+    } else {
       throw new Exception("Caracter inválido");
     }
-
-    // if (input) { // is special button
-    // System.out.println("é um botao especial");
-    // }
 
   }
 
