@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class Calculator {
   private Stack<Double> numbersHistory;
   private Operator operator;
+  private String textField;
 
   public Stack<Double> getNumbersHistory() {
     return this.numbersHistory;
@@ -16,12 +17,38 @@ public class Calculator {
   }
 
   public void setOperator(Operator operator) {
-    this.operator = operator; // fazer clone da classe
+    this.operator = operator;
+  }
+
+  public String getTextField() {
+    return this.textField;
+  }
+
+  public void setTextField(String textField) {
+    this.textField = textField;
+  }
+
+  public void addNumberToTextField(String value) {
+    String textFieldValue = this.getTextField();
+    String newTextFieldValue = textFieldValue.concat(value);
+    this.setTextField(newTextFieldValue);
+  }
+
+  public void removeLastNumberToTextField() {
+    String textFieldValue = this.getTextField();
+    int textFieldTam = textFieldValue.length();
+
+    if (textFieldTam > 0) {
+      String newTextFieldValue = textFieldValue.substring(0, textFieldTam - 1);
+      this.setTextField(newTextFieldValue);
+    }
+
   }
 
   public Calculator() {
     this.numbersHistory = new Stack<Double>();
     this.operator = null;
+    this.textField = "";
   }
 
   private void addNumberToHistory(double value) {
@@ -98,7 +125,5 @@ public class Calculator {
     } else {
       throw new Exception("Caracter inválido");
     }
-
   }
-
 }
